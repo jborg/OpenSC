@@ -24,6 +24,7 @@ libopensc_la_SOURCES = \
 	pkcs15.c pkcs15-cert.c pkcs15-data.c pkcs15-pin.c \
 	pkcs15-prkey.c pkcs15-pubkey.c pkcs15-sec.c \
 	pkcs15-algo.c pkcs15-cache.c pkcs15-syn.c \
+	pkcs15-skey.c \
 	\
 	muscle.c muscle-filesystem.c \
 	\
