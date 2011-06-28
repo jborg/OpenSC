@@ -73,7 +73,6 @@ typedef struct sc_pkcs15_id sc_pkcs15_id_t;
 #define SC_PKCS15_PIN_AUTH_TYPE_BIOMETRIC		1
 #define SC_PKCS15_PIN_AUTH_TYPE_AUTH_KEY		2
 #define SC_PKCS15_PIN_AUTH_TYPE_SM_KEY			3
-
 /* PinAttributes as they defined in PKCS#15 v1.1 for PIN authentication object */
 struct sc_pkcs15_pin_attributes {
 	unsigned int  flags, type;
@@ -392,6 +391,17 @@ struct sc_pkcs15_pubkey_info {
 };
 typedef struct sc_pkcs15_pubkey_info sc_pkcs15_pubkey_info_t;
 
+struct sc_pkcs15_skey_info {
+	struct sc_pkcs15_id id;
+	unsigned int usage, access_flags;
+	int native, key_reference;
+	int size;
+	unsigned int type, algorithm;
+
+	struct sc_path path;
+};
+typedef struct sc_pkcs15_secret_key_info sc_pkcs15_skey_info_t;
+
 #define SC_PKCS15_TYPE_CLASS_MASK		0xF00
 
 #define SC_PKCS15_TYPE_PRKEY			0x100
@@ -406,17 +416,26 @@ typedef struct sc_pkcs15_pubkey_info sc_pkcs15_pubkey_info_t;
 #define SC_PKCS15_TYPE_PUBKEY_GOSTR3410		0x203
 #define SC_PKCS15_TYPE_PUBKEY_EC		0x204
 
+#define SC_PKCS15_TYPE_SKEY			0x300
+#define SC_PKCS15_TYPE_SKEY_DES			0x301
+#define SC_PKCS15_TYPE_SKEY_2DES		0x302
+#define SC_PKCS15_TYPE_SKEY_3DES		0x303
+
 #define SC_PKCS15_TYPE_CERT			0x400
 #define SC_PKCS15_TYPE_CERT_X509		0x401
 #define SC_PKCS15_TYPE_CERT_SPKI		0x402
 
 #define SC_PKCS15_TYPE_DATA_OBJECT		0x500
+
 #define SC_PKCS15_TYPE_AUTH			0x600
 #define SC_PKCS15_TYPE_AUTH_PIN			0x601
+#define SC_PKCS15_TYPE_AUTH_BIO			0x602
+#define SC_PKCS15_TYPE_AUTH_AUTHKEY		0x603
 
 #define SC_PKCS15_TYPE_TO_CLASS(t)		(1 << ((t) >> 8))
 #define SC_PKCS15_SEARCH_CLASS_PRKEY		0x0002U
 #define SC_PKCS15_SEARCH_CLASS_PUBKEY		0x0004U
+#define SC_PKCS15_SEARCH_CLASS_SKEY		0x0008U
 #define SC_PKCS15_SEARCH_CLASS_CERT		0x0010U
 #define SC_PKCS15_SEARCH_CLASS_DATA		0x0020U
 #define SC_PKCS15_SEARCH_CLASS_AUTH		0x0040U
@@ -664,6 +683,9 @@ int sc_pkcs15_find_prkey_by_reference(sc_pkcs15_card_t *,
 int sc_pkcs15_find_pubkey_by_id(struct sc_pkcs15_card *card,
 			       const struct sc_pkcs15_id *id,
 			       struct sc_pkcs15_object **out);
+int sc_pkcs15_find_skey_by_id(struct sc_pkcs15_card *card,
+			       const struct sc_pkcs15_id *id,
+			       struct sc_pkcs15_object **out);
 
 int sc_pkcs15_verify_pin(struct sc_pkcs15_card *card,
 			 struct sc_pkcs15_object *pin_obj,
@@ -744,6 +766,9 @@ int sc_pkcs15_decode_prkdf_entry(struct sc_pkcs15_card *p15card,
 				 struct sc_pkcs15_object *obj,
 				 const u8 **buf, size_t *bufsize);
 int sc_pkcs15_decode_pukdf_entry(struct sc_pkcs15_card *p15card,
+				 struct sc_pkcs15_object *obj,
+				 const u8 **buf, size_t *bufsize);
+int sc_pkcs15_decode_skdf_entry(struct sc_pkcs15_card *p15card,
 				 struct sc_pkcs15_object *obj,
 				 const u8 **buf, size_t *bufsize);
 
