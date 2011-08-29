@@ -226,6 +226,13 @@ static void sc_asn1_print_object_id(const u8 * buf, size_t buflen)
 	printf("%s", sbuf);
 }
 
+static void sc_asn1_print_generalizedtime(const u8 * buf, size_t buflen)
+{
+	int ii;
+	for (ii=0; ii<buflen; ii++)
+		printf("%c", *(buf + ii));
+}
+
 static void print_tags_recursive(const u8 * buf0, const u8 * buf,
 				 size_t buflen, int depth)
 {
@@ -294,6 +301,9 @@ static void print_tags_recursive(const u8 * buf0, const u8 * buf,
 				break;
 			case SC_ASN1_TAG_BOOLEAN:
 				sc_asn1_print_boolean(tagp, len);
+				break;
+			case SC_ASN1_GENERALIZEDTIME:
+				sc_asn1_print_generalizedtime(tagp, len);
 				break;
 			}
 			printf("]");
