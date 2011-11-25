@@ -1326,6 +1326,13 @@ static int mcrd_compute_signature(sc_card_t * card,
 
 	r = sc_transmit_apdu(card, &apdu);
 	SC_TEST_RET(card->ctx, SC_LOG_DEBUG_NORMAL, r, "APDU transmit failed");
+
+	/* Localized workaround for broken EstEID 3.0 cards, which return 0x6985 instead of 0x6982 if the associated */
+	/* PIN is not verified, and thus break the generic PIN caching mechanism which depends on 0x6982 */
+	if (card->type == SC_CARD_TYPE_MCRD_ESTEID_V30)
+		if (apdu.sw1 == 0x69 && apdu.sw2 == 0x85)
+			apdu.sw2 = 0x82;
+
 	r = sc_check_sw(card, apdu.sw1, apdu.sw2);
 	SC_TEST_RET(card->ctx, SC_LOG_DEBUG_NORMAL, r, "Card returned error");
 
