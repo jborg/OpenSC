@@ -452,7 +452,7 @@ int main(
 	int do_help=0, do_unblock=0, do_change=0, do_nullpin=0, do_readcert=0, do_writecert=0;
 	u8 newpin[32];
 	char *certfile=NULL, *p;
-	int r, oerr=0, reader=0, debug=0, newlen=0, pin_nr=-1, cert_nr=-1;
+	int r, oerr = 0, reader = 0, debug = 0, newlen = 0, pin_nr = -1, cert_nr = -1;
 	size_t i;
 
 	while((r=getopt_long(argc,argv,"hvr:p:u:0:1:",options,NULL))!=EOF) switch(r){

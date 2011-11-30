@@ -106,7 +106,7 @@ static int jcop_init(sc_card_t *card)
      drvdata->aid.type = SC_PATH_TYPE_DF_NAME;
      drvdata->selected=SELECT_MF;
      drvdata->invalid_senv=1;
-     drvdata->nfiles=-1;
+     drvdata->nfiles = -1;
      drvdata->filelist=NULL;
      f=sc_file_new();
      if (!f){
@@ -210,7 +210,7 @@ static int jcop_select_file(sc_card_t *card, const sc_path_t *path,
      if (file) {
 	  fileptr=file;
      } else {
-	  fileptr=&tfile;
+	  fileptr = &tfile;
      }
 
      /* Selecting the MF. return a copy of the constructed MF */
@@ -286,7 +286,7 @@ static int jcop_select_file(sc_card_t *card, const sc_path_t *path,
 	       path->type;
 	  shortpath.index=path->index;
 	  shortpath.count=path->count;
-	  path=&shortpath;
+	  path = &shortpath;
      } else {
 	  /* There seems to be better debugging output if I call sc_check_sw
 	   * with appropriate input than if I just return the appropriate 
@@ -421,7 +421,7 @@ static int jcop_process_fci(sc_card_t *card, sc_file_t *file,
 	  return r;
      if (file->type != SC_FILE_TYPE_DF) {
 	  if (drvdata->nfiles) {
-	       drvdata->nfiles=-1;
+	       drvdata->nfiles = -1;
 	       free(drvdata->filelist);
 	       drvdata->filelist=NULL;
 	  }
@@ -641,7 +641,7 @@ static int jcop_set_security_env(sc_card_t *card,
                         tmp.algorithm_ref |= 0x10;
                 if (tmp.algorithm_flags & SC_ALGORITHM_RSA_HASH_MD5)
                         tmp.algorithm_ref |= 0x20;
-		env=&tmp;
+		env = &tmp;
 	}
 	
         sc_format_apdu(card, &apdu, SC_APDU_CASE_3_SHORT, 0x22, 0xC1, 0);

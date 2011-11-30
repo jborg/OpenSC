@@ -166,7 +166,7 @@ static int piv_get_guid(struct sc_pkcs15_card *p15card, const struct sc_pkcs15_o
 		fbits = 0;
 		for (i = 0; i < 25*8; i++) {
 			if (i%8 == 0) {
-				fbyte=*f5p++;
+				fbyte = *f5p++;
 			}
 			fbit = (fbyte & 0x80) ? 1:0;
 			fbyte <<= 1;

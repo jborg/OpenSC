@@ -366,8 +366,8 @@ static int entersafe_store_key(sc_profile_t *profile, sc_pkcs15_card_t *p15card,
 	SC_TEST_RET(card->ctx, SC_LOG_DEBUG_NORMAL, r, "cant verify pin");
 
 	data.key_id = (u8) kinfo->key_reference;
-	data.usage=0x22;
-	data.key_data.rsa=&key->u.rsa;
+	data.usage = 0x22;
+	data.key_data.rsa = &key->u.rsa;
 	return sc_card_ctl(card, SC_CARDCTL_ENTERSAFE_WRITE_KEY, &data);
 }
 

@@ -1040,8 +1040,7 @@ static int entersafe_erase_card(sc_card_t *card)
 
 static void entersafe_encode_bignum(u8 tag,sc_pkcs15_bignum_t bignum,u8** ptr)
 {
-	 u8 *p=*ptr;
-
+	 u8 *p = *ptr;
 	 *p++=tag;
 	 if(bignum.len<128)
 	 {
