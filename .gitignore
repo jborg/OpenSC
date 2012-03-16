@@ -37,6 +37,7 @@ stamp-h*
 *.la
 *.lib
 *.lo
+*.o
 *.orig
 *.pdb
 *.rej
