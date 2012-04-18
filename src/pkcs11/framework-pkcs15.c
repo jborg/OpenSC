@@ -1517,6 +1517,18 @@ static CK_RV pkcs15_create_private_key(struct sc_pkcs11_card *p11card,
 		case CKA_UNWRAP:
 			args.usage |= pkcs15_check_bool_cka(attr, SC_PKCS15_PRKEY_USAGE_UNWRAP);
 			break;
+		case CKA_SENSITIVE:
+			args.access_flags |= pkcs15_check_bool_cka(attr, SC_PKCS15_PRKEY_ACCESS_SENSITIVE);
+			break;
+		case CKA_ALWAYS_SENSITIVE:
+			args.access_flags |= pkcs15_check_bool_cka(attr, SC_PKCS15_PRKEY_ACCESS_ALWAYSSENSITIVE);
+			break;
+		case CKA_EXTRACTABLE:
+			args.access_flags |= pkcs15_check_bool_cka(attr, SC_PKCS15_PRKEY_ACCESS_EXTRACTABLE);
+			break;
+		case CKA_NEVER_EXTRACTABLE:
+			args.access_flags |= pkcs15_check_bool_cka(attr, SC_PKCS15_PRKEY_ACCESS_NEVEREXTRACTABLE);
+			break;
 		case OPENSC_CKA_NON_REPUDIATION:
 			args.usage |= pkcs15_check_bool_cka(attr, SC_PKCS15_PRKEY_USAGE_NONREPUDIATION);
 			break;	
@@ -1533,6 +1545,11 @@ static CK_RV pkcs15_create_private_key(struct sc_pkcs11_card *p11card,
 			bn->data = (u8 *) attr->pValue;
 		}
 	}
+	if (!(args.access_flags & SC_PKCS15_PRKEY_ACCESS_SENSITIVE)) 
+		args.access_flags &= ~SC_PKCS15_PRKEY_ACCESS_ALWAYSSENSITIVE;
+
+	if (args.access_flags & SC_PKCS15_PRKEY_ACCESS_EXTRACTABLE) 
+		args.access_flags &= ~SC_PKCS15_PRKEY_ACCESS_NEVEREXTRACTABLE;
 
 	if (key_type == CKK_RSA)   {
 		if (!rsa->modulus.len || !rsa->exponent.len || !rsa->d.len || !rsa->p.len || !rsa->q.len) {
